@@ -20,8 +20,10 @@ func main() {
 	websocketServer := NewWebSocketServer(buzzerStream)
 	httpServer := NewWebserver(":8080", websocketServer)
 
-	hardware := NewHardwareBuzzer(buzzerStream)
-	err := hardware.Initialize()
+	buzzer := NewHardwareBuzzer(buzzerStream)
+	log.Println("hardware buzzer requested")
+
+	err := buzzer.Initialize()
 	if err != nil {
 		log.Fatalf("buzzer initialisation failed: %s", err)
 	}
@@ -36,7 +38,7 @@ func main() {
 		}
 	}()
 
-	err = hardware.Start()
+	err = buzzer.Start()
 	if err != nil {
 		log.Fatalf("buzzer start failed: %s", err)
 	}
