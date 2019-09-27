@@ -11,7 +11,7 @@ import (
 
 func main() {
 	log.Println("******************************************")
-	log.Println("     Hardware Websocket Buzzer Server     ")
+	log.Println("      things with buzzers: websocket      ")
 	log.Println("******************************************")
 
 	// Initializing everything:

@@ -26,7 +26,7 @@ func NewWebserver(listen string, websocket *WebSocketServer) *WebServer {
 
 // Start will boot up the HTTP webserver
 func (s *WebServer) Start() error {
-	log.Printf("Starting websocket on %s ...\n", s.listen)
+	log.Printf("webserver starting on %s ...\n", s.listen)
 
 	// Static file server
 	fs := http.FileServer(http.Dir("static"))
@@ -46,7 +46,7 @@ func (s *WebServer) Start() error {
 func (s *WebServer) websocketHandler(w http.ResponseWriter, r *http.Request) {
 	client, err := s.socket.UpgradeConnection(w, r)
 	if err != nil {
-		log.Print("upgrade:", err)
+		log.Printf("upgrade to websocket protocol failed: %s", err)
 		return
 	}
 

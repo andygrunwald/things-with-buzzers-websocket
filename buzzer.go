@@ -88,7 +88,7 @@ func (b *HardwareBuzzer) Initialize() error {
 
 	work := func() {
 		red.On(gpio.ButtonPush, func(data interface{}) {
-			log.Println("Button red pressed")
+			log.Println("buzzer red pressed")
 			msg := buzzerHit{
 				Color: buzzerColorRed,
 			}
@@ -96,7 +96,7 @@ func (b *HardwareBuzzer) Initialize() error {
 		})
 
 		green.On(gpio.ButtonPush, func(data interface{}) {
-			log.Println("Button green pressed")
+			log.Println("buzzer green pressed")
 			msg := buzzerHit{
 				Color: buzzerColorGreen,
 			}
@@ -104,7 +104,7 @@ func (b *HardwareBuzzer) Initialize() error {
 		})
 
 		blue.On(gpio.ButtonPush, func(data interface{}) {
-			log.Println("Button blue pressed")
+			log.Println("buzzer blue pressed")
 			msg := buzzerHit{
 				Color: buzzerColorBlue,
 			}
@@ -112,7 +112,7 @@ func (b *HardwareBuzzer) Initialize() error {
 		})
 
 		yellow.On(gpio.ButtonPush, func(data interface{}) {
-			log.Println("Button yellow pressed")
+			log.Println("buzzer yellow pressed")
 			msg := buzzerHit{
 				Color: buzzerColorYellow,
 			}
@@ -120,7 +120,7 @@ func (b *HardwareBuzzer) Initialize() error {
 		})
 	}
 
-	b.robot = gobot.NewRobot("buttonBot",
+	b.robot = gobot.NewRobot("buzzerBot",
 		[]gobot.Connection{r},
 		[]gobot.Device{red, green, blue, yellow},
 		work,
