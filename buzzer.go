@@ -1,8 +1,7 @@
 package main
 
 import (
-	"log"
-
+	"github.com/sirupsen/logrus"
 	"gobot.io/x/gobot"
 	"gobot.io/x/gobot/drivers/gpio"
 	"gobot.io/x/gobot/platforms/raspi"
@@ -60,13 +59,15 @@ type Buzzer interface {
 type HardwareBuzzer struct {
 	buzzerStream chan buzzerHit
 	robot        *gobot.Robot
+	logger       *logrus.Logger
 }
 
 // NewHardwareBuzzer returns a new instance of
 // the hardware buzzer stream
-func NewHardwareBuzzer(buzzer chan buzzerHit) Buzzer {
+func NewHardwareBuzzer(buzzer chan buzzerHit, logger *logrus.Logger) Buzzer {
 	b := &HardwareBuzzer{
 		buzzerStream: buzzer,
+		logger:       logger,
 	}
 	return b
 }
@@ -88,35 +89,55 @@ func (b *HardwareBuzzer) Initialize() error {
 
 	work := func() {
 		red.On(gpio.ButtonPush, func(data interface{}) {
-			log.Println("Button red pressed")
 			msg := buzzerHit{
 				Color: buzzerColorRed,
 			}
 			b.buzzerStream <- msg
+
+			// TODO Add bash color to visualize it better
+			// See https://github.com/andygrunwald/things-with-buzzers-hardware/blob/master/software/go/main.go#L65
+			b.logger.WithFields(logrus.Fields{
+				"color": "red",
+			}).Info("buzzer pressed")
 		})
 
 		green.On(gpio.ButtonPush, func(data interface{}) {
-			log.Println("Button green pressed")
 			msg := buzzerHit{
 				Color: buzzerColorGreen,
 			}
 			b.buzzerStream <- msg
+
+			// TODO Add bash color to visualize it better
+			// See https://github.com/andygrunwald/things-with-buzzers-hardware/blob/master/software/go/main.go#L65
+			b.logger.WithFields(logrus.Fields{
+				"color": "green",
+			}).Info("buzzer pressed")
 		})
 
 		blue.On(gpio.ButtonPush, func(data interface{}) {
-			log.Println("Button blue pressed")
 			msg := buzzerHit{
 				Color: buzzerColorBlue,
 			}
 			b.buzzerStream <- msg
+
+			// TODO Add bash color to visualize it better
+			// See https://github.com/andygrunwald/things-with-buzzers-hardware/blob/master/software/go/main.go#L65
+			b.logger.WithFields(logrus.Fields{
+				"color": "blue",
+			}).Info("buzzer pressed")
 		})
 
 		yellow.On(gpio.ButtonPush, func(data interface{}) {
-			log.Println("Button yellow pressed")
 			msg := buzzerHit{
 				Color: buzzerColorYellow,
 			}
 			b.buzzerStream <- msg
+
+			// TODO Add bash color to visualize it better
+			// See https://github.com/andygrunwald/things-with-buzzers-hardware/blob/master/software/go/main.go#L65
+			b.logger.WithFields(logrus.Fields{
+				"color": "yellow",
+			}).Info("buzzer pressed")
 		})
 	}
 

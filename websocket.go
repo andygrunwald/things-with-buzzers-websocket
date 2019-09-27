@@ -2,10 +2,10 @@ package main
 
 import (
 	"encoding/json"
-	"log"
 	"net/http"
 
 	"github.com/gorilla/websocket"
+	"github.com/sirupsen/logrus"
 )
 
 // WebSocketServer represents the data structure that
@@ -14,12 +14,13 @@ type WebSocketServer struct {
 	upgrader     websocket.Upgrader
 	clients      map[*websocket.Conn]bool
 	buzzerStream chan buzzerHit
+	logger       *logrus.Logger
 }
 
 // NewWebSocketServer will create a new web socket server instance
 // "buzzer" represents the message bus of the buzzer. If a buzzer was hit,
 // a message will be send into this channel
-func NewWebSocketServer(buzzer chan buzzerHit) *WebSocketServer {
+func NewWebSocketServer(buzzer chan buzzerHit, logger *logrus.Logger) *WebSocketServer {
 	s := &WebSocketServer{
 		upgrader: websocket.Upgrader{
 			CheckOrigin: func(r *http.Request) bool {
@@ -36,6 +37,7 @@ func NewWebSocketServer(buzzer chan buzzerHit) *WebSocketServer {
 		},
 		clients:      make(map[*websocket.Conn]bool),
 		buzzerStream: buzzer,
+		logger:       logger,
 	}
 	return s
 }
@@ -43,18 +45,22 @@ func NewWebSocketServer(buzzer chan buzzerHit) *WebSocketServer {
 // Broadcasting will send a single message
 // to all connected websocket clients (broadcasting).
 func (s *WebSocketServer) Broadcasting() {
-	log.Println("Starting socket broadcast ...")
+	s.logger.Info("starting socket broadcast")
 	for {
 		msg := <-s.buzzerStream
 
 		jsonMessage, _ := json.Marshal(msg)
-		log.Printf("Broadcasting message: %v\n", string(jsonMessage))
+		s.logger.WithFields(logrus.Fields{
+			"msg": string(jsonMessage),
+		}).Info("broadcasting message")
 
 		// Send to every client that is currently connected
 		for client := range s.clients {
 			err := client.WriteMessage(websocket.TextMessage, jsonMessage)
 			if err != nil {
-				log.Printf("Websocket error: %s", err)
+				s.logger.WithFields(logrus.Fields{
+					"err": err,
+				}).Warn("websocket write message failed")
 				s.DeregisterClient(client)
 			}
 		}
@@ -71,10 +77,16 @@ func (s *WebSocketServer) UpgradeConnection(w http.ResponseWriter, r *http.Reque
 // RegisterClient registers a new web client to our websocket connection.
 func (s *WebSocketServer) RegisterClient(client *websocket.Conn) {
 	s.clients[client] = true
+	s.logger.WithFields(logrus.Fields{
+		"client": client.LocalAddr(),
+	}).Info("new client registered")
 }
 
 // DeregisterClient signs off an existing web client to our websocket connection.
 func (s *WebSocketServer) DeregisterClient(client *websocket.Conn) {
+	defer s.logger.WithFields(logrus.Fields{
+		"client": client.LocalAddr(),
+	}).Info("client signed off")
 	client.Close()
 	delete(s.clients, client)
 }
