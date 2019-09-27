@@ -2,6 +2,7 @@ package main
 
 import (
 	"log"
+	"runtime"
 )
 
 // TODO Replace log with logrus
@@ -20,8 +21,14 @@ func main() {
 	websocketServer := NewWebSocketServer(buzzerStream)
 	httpServer := NewWebserver(":8080", websocketServer)
 
-	buzzer := NewHardwareBuzzer(buzzerStream)
-	log.Println("hardware buzzer requested")
+	var buzzer Buzzer
+	if runtime.GOARCH == "arm" {
+		buzzer = NewHardwareBuzzer(buzzerStream)
+		log.Println("hardware buzzer requested")
+	} else {
+		buzzer = NewSoftwareBuzzer(buzzerStream, ":8181")
+		log.Println("software buzzer requested")
+	}
 
 	err := buzzer.Initialize()
 	if err != nil {
