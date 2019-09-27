@@ -6,8 +6,6 @@ import (
 )
 
 // TODO Replace log with logrus
-// TODO Add software buzzer implementation
-// TODO Comment everything properly
 // TODO Make listen part of webserver configurable via env var
 
 func main() {
