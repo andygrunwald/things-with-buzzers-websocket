@@ -22,15 +22,15 @@ var (
 // TODO Replace log with logrus
 
 func main() {
-	log.Println("******************************************")
-	log.Println("      things with buzzers: websocket      ")
-	log.Println("******************************************")
-
 	// Command line flag parsing
 	flag.StringVar(&HTTPListenAddr, "http-listen-addr", LookupEnvOrString("TWB_HTTP_LISTEN_ADDR", HTTPListenAddr), "HTTP server listen address")
 	flag.StringVar(&TCPListenAddr, "tcp-listen-addr", LookupEnvOrString("TWB_TCP_LISTEN_ADDR", TCPListenAddr), "TCP/Software buzzer server listen address")
 	flag.BoolVar(&HardwareBuzzerSupport, "hardware-buzzer", LookupEnvOrBool("TWB_HARDWARE_BUZZER", HardwareBuzzerSupport), "Enforces initialization of hardware buzzer (even on non arm architectures)")
 	flag.Parse()
+
+	log.Println("******************************************")
+	log.Println("      things with buzzers: websocket      ")
+	log.Println("******************************************")
 
 	// Initializing everything:
 	// The websocket server, the webserver, and the buzzer implementation
