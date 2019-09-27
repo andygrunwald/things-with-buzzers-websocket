@@ -26,7 +26,7 @@ func NewWebserver(listen string, websocket *WebSocketServer) *WebServer {
 
 // Start will boot up the HTTP webserver
 func (s *WebServer) Start() error {
-	log.Printf("webserver starting on %s ...\n", s.listen)
+	log.Printf("webserver starting on %s", s.listen)
 
 	// Static file server
 	fs := http.FileServer(http.Dir("static"))
