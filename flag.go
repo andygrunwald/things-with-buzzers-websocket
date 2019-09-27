@@ -12,3 +12,13 @@ func LookupEnvOrString(key string, defaultVal string) string {
 	}
 	return defaultVal
 }
+
+// LookupEnvOrBool looks up if key is set as a system environment variable.
+// If yes, true is returned.
+// If key doesn't exist, defaultVal will be used.
+func LookupEnvOrBool(key string, defaultVal bool) bool {
+	if _, ok := os.LookupEnv(key); ok {
+		return ok
+	}
+	return defaultVal
+}

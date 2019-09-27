@@ -15,6 +15,8 @@ var (
 	// where the tcp server will listen on. The software buzzer
 	// interface opens up a TCP socket to emulate buzzer
 	TCPListenAddr = ":8181"
+
+	HardwareBuzzerSupport = false
 )
 
 // TODO Replace log with logrus
@@ -27,6 +29,7 @@ func main() {
 	// Command line flag parsing
 	flag.StringVar(&HTTPListenAddr, "http-listen-addr", LookupEnvOrString("TWB_HTTP_LISTEN_ADDR", HTTPListenAddr), "HTTP server listen address")
 	flag.StringVar(&TCPListenAddr, "tcp-listen-addr", LookupEnvOrString("TWB_TCP_LISTEN_ADDR", TCPListenAddr), "TCP/Software buzzer server listen address")
+	flag.BoolVar(&HardwareBuzzerSupport, "hardware-buzzer", LookupEnvOrBool("TWB_HARDWARE_BUZZER", HardwareBuzzerSupport), "Enforces initialization of hardware buzzer (even on non arm architectures)")
 	flag.Parse()
 
 	// Initializing everything:
@@ -36,7 +39,7 @@ func main() {
 	httpServer := NewWebserver(HTTPListenAddr, websocketServer)
 
 	var buzzer Buzzer
-	if runtime.GOARCH == "arm" {
+	if runtime.GOARCH == "arm" || HardwareBuzzerSupport {
 		buzzer = NewHardwareBuzzer(buzzerStream)
 		log.Println("hardware buzzer requested")
 	} else {
