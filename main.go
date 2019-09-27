@@ -1,30 +1,46 @@
 package main
 
 import (
+	"flag"
 	"log"
 	"runtime"
 )
 
+var (
+	// HTTPListenAddr represents the interface + port combination
+	// where the webserver will listen on
+	HTTPListenAddr = ":8080"
+
+	// TCPListenAddr represents the interface + port combination
+	// where the tcp server will listen on. The software buzzer
+	// interface opens up a TCP socket to emulate buzzer
+	TCPListenAddr = ":8181"
+)
+
 // TODO Replace log with logrus
-// TODO Make listen part of webserver configurable via env var
 
 func main() {
 	log.Println("******************************************")
 	log.Println("      things with buzzers: websocket      ")
 	log.Println("******************************************")
 
+	// Command line flag parsing
+	flag.StringVar(&HTTPListenAddr, "http-listen-addr", LookupEnvOrString("TWB_HTTP_LISTEN_ADDR", HTTPListenAddr), "HTTP server listen address")
+	flag.StringVar(&TCPListenAddr, "tcp-listen-addr", LookupEnvOrString("TWB_TCP_LISTEN_ADDR", TCPListenAddr), "TCP/Software buzzer server listen address")
+	flag.Parse()
+
 	// Initializing everything:
 	// The websocket server, the webserver, and the buzzer implementation
 	buzzerStream := make(chan buzzerHit, 4)
 	websocketServer := NewWebSocketServer(buzzerStream)
-	httpServer := NewWebserver(":8080", websocketServer)
+	httpServer := NewWebserver(HTTPListenAddr, websocketServer)
 
 	var buzzer Buzzer
 	if runtime.GOARCH == "arm" {
 		buzzer = NewHardwareBuzzer(buzzerStream)
 		log.Println("hardware buzzer requested")
 	} else {
-		buzzer = NewSoftwareBuzzer(buzzerStream, ":8181")
+		buzzer = NewSoftwareBuzzer(buzzerStream, TCPListenAddr)
 		log.Println("software buzzer requested")
 	}
 
