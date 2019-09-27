@@ -11,11 +11,11 @@ import (
 const (
 	// buzzerColorRed represents a physical buzzer in color red
 	buzzerColorRed string = "red"
-	// buttonRed represents a physical buzzer in color green
+	// buzzerColorGreen represents a physical buzzer in color green
 	buzzerColorGreen string = "green"
-	// buttonRed represents a physical buzzer in color blue
+	// buzzerColorBlue represents a physical buzzer in color blue
 	buzzerColorBlue string = "blue"
-	// buttonRed represents a physical buzzer in color yellow
+	// buzzerColorYellow represents a physical buzzer in color yellow
 	buzzerColorYellow string = "yellow"
 
 	// buzzerPinRed represents the Raspberry Pi GPIO pin where the
