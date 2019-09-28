@@ -16,6 +16,8 @@ var (
 	// interface opens up a TCP socket to emulate buzzer
 	TCPListenAddr = ":8181"
 
+	// HardwareBuzzerSupport represents the flag to enforce
+	// initialization of hardware buzzer (even on non arm architectures)
 	HardwareBuzzerSupport = false
 )
 
