@@ -1,0 +1,63 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>things with buzzers: websocket</title>
+</head>
+<body>
+    <div>
+        <h1>Welcome to <i>things with buzzers: websocket</i></h1>
+        <h2>Static webserver</h2>
+        <p>
+            This is a proof that the static webserver works :)<br />
+            Add your files and serve!
+        </p>
+    </div>
+    <div>
+        <h2>websocket server</h2>
+        <p> Hit a buzzer and you will see the messages below.</p>
+        <p>Either a hardware buzzer or you connect via telnet (on the configured port) to the software buzzer emulation (<i>see README.md for detailed instructions</i>).</p>
+        <h3>websocket messages</h3>
+        <div id="websocket-msg">
+
+        </div>
+    </div>
+  <script type="text/javascript">
+    // Build websocket URL
+    // We assume, the buzzer server + the static
+    // webserver that serves this files, are running
+    // on the same server/raspberry pi
+    var parser = document.createElement('a');
+    parser.href = window.location.href;
+    wsURL = "ws://" + parser.host + "/stream"
+
+    function connectToWebSocket(websocketServerLocation){
+      console.log("connecting to websocket " + wsURL)
+      ws = new WebSocket(websocketServerLocation);
+      
+      ws.onopen = function(evt) {
+        console.log("websocket: connection established");
+      }
+      ws.onerror = function(evt) {
+        console.log("websocket: error", evt);
+      }
+      ws.onclose = function(){
+        console.log("websocket: connection closed ... trying to reconnect");
+        // Try to reconnect in 5 seconds
+        setTimeout(function(){
+            connectToWebSocket(websocketServerLocation)
+        }, 5000);
+      }
+
+      // When a new message from the websocket server comes in ...
+      // Mainly if someone hits one of the buzzers
+      ws.onmessage = function(evt) {
+        document.getElementById("websocket-msg").append(evt.data);
+        document.getElementById("websocket-msg").append(document.createElement('br'));
+      }
+    }   
+
+    connectToWebSocket(wsURL); 
+  </script>
+</body>
+</html>
