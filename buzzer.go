@@ -91,35 +91,19 @@ func (b *HardwareBuzzer) Initialize() error {
 
 	work := func() {
 		red.On(gpio.ButtonPush, func(data interface{}) {
-			log.Println("Buzzer red pressed")
-			msg := buzzerHit{
-				Color: buzzerColorRed,
-			}
-			b.buzzerStream <- msg
+			sendBuzzerHit(b.buzzerStream, buzzerColorRed)
 		})
 
 		green.On(gpio.ButtonPush, func(data interface{}) {
-			log.Println("Buzzer green pressed")
-			msg := buzzerHit{
-				Color: buzzerColorGreen,
-			}
-			b.buzzerStream <- msg
+			sendBuzzerHit(b.buzzerStream, buzzerColorGreen)
 		})
 
 		blue.On(gpio.ButtonPush, func(data interface{}) {
-			log.Println("Buzzer blue pressed")
-			msg := buzzerHit{
-				Color: buzzerColorBlue,
-			}
-			b.buzzerStream <- msg
+			sendBuzzerHit(b.buzzerStream, buzzerColorBlue)
 		})
 
 		yellow.On(gpio.ButtonPush, func(data interface{}) {
-			log.Println("Buzzer yellow pressed")
-			msg := buzzerHit{
-				Color: buzzerColorYellow,
-			}
-			b.buzzerStream <- msg
+			sendBuzzerHit(b.buzzerStream, buzzerColorYellow)
 		})
 	}
 
