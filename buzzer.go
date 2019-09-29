@@ -174,6 +174,7 @@ func (b *SoftwareBuzzer) handleConnection(conn net.Conn) {
 	log.Printf("Buzzer emulator: client connected: %s", remoteAddr)
 	defer log.Printf("Buzzer emulator: client disconnected: %s", remoteAddr)
 
+	b.welcomeMessage(conn)
 	scanner := bufio.NewScanner(conn)
 	for {
 		ok := scanner.Scan()
@@ -183,6 +184,35 @@ func (b *SoftwareBuzzer) handleConnection(conn net.Conn) {
 
 		b.handleMessage(scanner.Text(), conn)
 	}
+}
+
+// welcomeMessage writes a welcome message to the user
+// into conn
+func (b *SoftwareBuzzer) welcomeMessage(conn net.Conn) {
+	msg := "> Welcome to the Software Buzzer Emulator of\n"
+	conn.Write([]byte(msg))
+	msg = ">       things with buzzers: websocket\n"
+	conn.Write([]byte(msg))
+	msg = ">\n"
+	conn.Write([]byte(msg))
+	msg = "> Every command needs to start with \"/\"\n"
+	conn.Write([]byte(msg))
+	msg = "> Supported commands:\n"
+	conn.Write([]byte(msg))
+	msg = ">    /red\n"
+	conn.Write([]byte(msg))
+	msg = ">    /green\n"
+	conn.Write([]byte(msg))
+	msg = ">    /blue\n"
+	conn.Write([]byte(msg))
+	msg = ">    /yellow\n"
+	conn.Write([]byte(msg))
+	msg = ">    /quit\n"
+	conn.Write([]byte(msg))
+	msg = ">\n"
+	conn.Write([]byte(msg))
+	msg = "> Type your commands, and we are ready to go. Have fun!\n"
+	conn.Write([]byte(msg))
 }
 
 // handleMessage takes care about every single message from conn.
