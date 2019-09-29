@@ -21,8 +21,6 @@ var (
 	HardwareBuzzerSupport = false
 )
 
-// TODO Replace log with logrus
-
 func main() {
 	// Command line flag parsing
 	flag.StringVar(&HTTPListenAddr, "http-listen-addr", LookupEnvOrString("TWB_HTTP_LISTEN_ADDR", HTTPListenAddr), "HTTP server listen address")
