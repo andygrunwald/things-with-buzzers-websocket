@@ -43,15 +43,15 @@ func main() {
 	var buzzer Buzzer
 	if runtime.GOARCH == "arm" || HardwareBuzzerSupport {
 		buzzer = NewHardwareBuzzer(buzzerStream)
-		log.Println("hardware buzzer requested")
+		log.Println("Hardware buzzer requested")
 	} else {
 		buzzer = NewSoftwareBuzzer(buzzerStream, TCPListenAddr)
-		log.Println("software buzzer requested")
+		log.Println("Software buzzer requested")
 	}
 
 	err := buzzer.Initialize()
 	if err != nil {
-		log.Fatalf("buzzer initialisation failed: %s", err)
+		log.Fatalf("Buzzer initialisation failed: %s", err)
 	}
 
 	// Start everything:
@@ -60,12 +60,12 @@ func main() {
 	go func() {
 		err := httpServer.Start()
 		if err != nil {
-			log.Fatalf("http server start failed: %s", err)
+			log.Fatalf("HTTP server start failed: %s", err)
 		}
 	}()
 
 	err = buzzer.Start()
 	if err != nil {
-		log.Fatalf("buzzer start failed: %s", err)
+		log.Fatalf("Buzzer start failed: %s", err)
 	}
 }

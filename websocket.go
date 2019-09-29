@@ -43,18 +43,18 @@ func NewWebSocketServer(buzzer chan buzzerHit) *WebSocketServer {
 // Broadcasting will send a single message
 // to all connected websocket clients (broadcasting).
 func (s *WebSocketServer) Broadcasting() {
-	log.Println("starting socket broadcast")
+	log.Println("Starting socket broadcast")
 	for {
 		msg := <-s.buzzerStream
 
 		jsonMessage, _ := json.Marshal(msg)
-		log.Printf("broadcasting message: %v\n", string(jsonMessage))
+		log.Printf("Broadcasting message: %v\n", string(jsonMessage))
 
 		// Send to every client that is currently connected
 		for client := range s.clients {
 			err := client.WriteMessage(websocket.TextMessage, jsonMessage)
 			if err != nil {
-				log.Printf("websocket write message failed: %s", err)
+				log.Printf("Websocket write message failed: %s", err)
 				s.DeregisterClient(client)
 			}
 		}
@@ -71,12 +71,12 @@ func (s *WebSocketServer) UpgradeConnection(w http.ResponseWriter, r *http.Reque
 // RegisterClient registers a new web client to our websocket connection.
 func (s *WebSocketServer) RegisterClient(client *websocket.Conn) {
 	s.clients[client] = true
-	log.Printf("new client registered: %s", client.LocalAddr())
+	log.Printf("New client registered: %s", client.LocalAddr())
 }
 
 // DeregisterClient signs off an existing web client to our websocket connection.
 func (s *WebSocketServer) DeregisterClient(client *websocket.Conn) {
-	defer log.Printf("client signed off: %s", client.LocalAddr())
+	defer log.Printf("Client signed off: %s", client.LocalAddr())
 	client.Close()
 	delete(s.clients, client)
 }

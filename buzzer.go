@@ -91,7 +91,7 @@ func (b *HardwareBuzzer) Initialize() error {
 
 	work := func() {
 		red.On(gpio.ButtonPush, func(data interface{}) {
-			log.Println("buzzer red pressed")
+			log.Println("Buzzer red pressed")
 			msg := buzzerHit{
 				Color: buzzerColorRed,
 			}
@@ -99,7 +99,7 @@ func (b *HardwareBuzzer) Initialize() error {
 		})
 
 		green.On(gpio.ButtonPush, func(data interface{}) {
-			log.Println("buzzer green pressed")
+			log.Println("Buzzer green pressed")
 			msg := buzzerHit{
 				Color: buzzerColorGreen,
 			}
@@ -107,7 +107,7 @@ func (b *HardwareBuzzer) Initialize() error {
 		})
 
 		blue.On(gpio.ButtonPush, func(data interface{}) {
-			log.Println("buzzer blue pressed")
+			log.Println("Buzzer blue pressed")
 			msg := buzzerHit{
 				Color: buzzerColorBlue,
 			}
@@ -115,7 +115,7 @@ func (b *HardwareBuzzer) Initialize() error {
 		})
 
 		yellow.On(gpio.ButtonPush, func(data interface{}) {
-			log.Println("buzzer yellow pressed")
+			log.Println("Buzzer yellow pressed")
 			msg := buzzerHit{
 				Color: buzzerColorYellow,
 			}
@@ -171,12 +171,12 @@ func (b *SoftwareBuzzer) Start() error {
 		return err
 	}
 	defer listener.Close()
-	log.Printf("buzzer emulator: tcp socket starting on %s", b.listen)
+	log.Printf("Buzzer emulator: tcp socket starting on %s", b.listen)
 
 	for {
 		conn, err := listener.Accept()
 		if err != nil {
-			log.Printf("buzzer emulator: tcp accept failed: %s", err)
+			log.Printf("Buzzer emulator: tcp accept failed: %s", err)
 		} else {
 			go b.handleConnection(conn)
 		}
@@ -187,8 +187,8 @@ func (b *SoftwareBuzzer) Start() error {
 // A connection mostly send several messages.
 func (b *SoftwareBuzzer) handleConnection(conn net.Conn) {
 	remoteAddr := conn.RemoteAddr().String()
-	log.Printf("buzzer emulator: client connected: %s", remoteAddr)
-	defer log.Printf("buzzer emulator: client disconnected: %s", remoteAddr)
+	log.Printf("Buzzer emulator: client connected: %s", remoteAddr)
+	defer log.Printf("Buzzer emulator: client disconnected: %s", remoteAddr)
 
 	scanner := bufio.NewScanner(conn)
 	for {
@@ -204,7 +204,7 @@ func (b *SoftwareBuzzer) handleConnection(conn net.Conn) {
 // handleMessage takes care about every single message from conn.
 func (b *SoftwareBuzzer) handleMessage(message string, conn net.Conn) {
 	remoteAddr := conn.RemoteAddr().String()
-	log.Printf("buzzer emulator: message received from client %s: %s", remoteAddr, message)
+	log.Printf("Buzzer emulator: message received from client %s: %s", remoteAddr, message)
 
 	if len(message) > 0 && message[0] == '/' {
 		switch {
@@ -222,9 +222,9 @@ func (b *SoftwareBuzzer) handleMessage(message string, conn net.Conn) {
 			b.sendOKMessage(conn)
 
 		case message == "/quit":
-			log.Println("buzzer emulator: i was told to shut down")
+			log.Println("Buzzer emulator: i was told to shut down")
 			conn.Write([]byte("I'm shutting down now.\n"))
-			log.Println("buzzer emulator: bye bye")
+			log.Println("Buzzer emulator: bye bye")
 			os.Exit(0)
 
 		default:
@@ -237,14 +237,14 @@ func (b *SoftwareBuzzer) handleMessage(message string, conn net.Conn) {
 func (b *SoftwareBuzzer) sendOKMessage(conn net.Conn) {
 	remoteAddr := conn.RemoteAddr().String()
 	resp := "OK\n"
-	log.Printf("buzzer emulator: message sent to client %s: %s", remoteAddr, resp)
+	log.Printf("Buzzer emulator: message sent to client %s: %s", remoteAddr, resp)
 	conn.Write([]byte(resp))
 }
 
 // sendBuzzerHit adds a new buzzer hit message (color c)
 // into the buzzer stream b
 func sendBuzzerHit(b chan buzzerHit, c string) {
-	log.Printf("buzzer pressed: %s", c)
+	log.Printf("Buzzer pressed: %s", c)
 	msg := buzzerHit{
 		Color: c,
 	}
