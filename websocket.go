@@ -62,7 +62,6 @@ func (s *WebSocketServer) Broadcasting() {
 }
 
 // UpgradeConnection upgrades the HTTP connection to the WebSocket protocol.
-// TODO: Deprecated: Use websocket.Upgrader instead.
 func (s *WebSocketServer) UpgradeConnection(w http.ResponseWriter, r *http.Request) (*websocket.Conn, error) {
 	client, err := s.upgrader.Upgrade(w, r, nil)
 	return client, err
