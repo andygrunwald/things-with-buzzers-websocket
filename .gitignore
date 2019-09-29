@@ -11,6 +11,11 @@
 # Output of the go coverage tool, specifically when used with LiteIDE
 *.out
 
+# static/ folder
+static/*
+!static/.gitkeep
+!static/dummy.html
+
 # Binary
 things-with-buzzers-websocket
 twb-websocket
