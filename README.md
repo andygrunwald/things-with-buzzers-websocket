@@ -14,7 +14,9 @@ Start today having fun, and make people happy by providing them an unforgettable
 </p>
 
 _You are missing the context, what this is all about?_
-Have a look at [(3) things with buzzers: hardware](https://github.com/andygrunwald/things-with-buzzers-hardware).
+Have a look at
+
+* [(3) things with buzzers: hardware](https://github.com/andygrunwald/things-with-buzzers-hardware)
 
 ## Table of Contents
 
