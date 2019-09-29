@@ -29,6 +29,7 @@ Have a look at
 - [Development](#development)
   - [Native build](#native-build)
   - [Native build for Raspberry Pi](#native-build-for-raspberry-pi)
+  - [Deploy it to the Raspberry Pi](#deploy-it-to-the-raspberry-pi)
   - [Running the tests](#running-the-tests)
   - [Raspberry GPIOs](#raspberry-gpios)
 - [Contribute](#contribute)
@@ -127,6 +128,15 @@ go build -o twb-websocket
 
 ```sh
 GOARM=7 GOARCH=arm GOOS=linux go build -o twb-websocket
+```
+
+### Deploy it to the Raspberry Pi
+
+We assume that your Pi has the IP address _192.168.178.41_.
+It will deploy the _twb-websocket_ binary into the _/home/pi_ folder on your Pi.
+
+```sh
+scp twb-websocket pi@192.168.178.41:
 ```
 
 ### Running the tests
