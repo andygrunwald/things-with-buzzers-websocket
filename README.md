@@ -30,8 +30,9 @@ Have a look at
 - [Development](#development)
   - [Native build](#native-build)
   - [Native build for Raspberry Pi](#native-build-for-raspberry-pi)
-  - [Deploy it to the Raspberry Pi](#deploy-it-to-the-raspberry-pi)
   - [Running the tests](#running-the-tests)
+  - [Creating a new release](#creating-a-new-release)
+  - [Deploy it to the Raspberry Pi](#deploy-it-to-the-raspberry-pi)
   - [Raspberry GPIOs](#raspberry-gpios)
 - [Contribute](#contribute)
 
