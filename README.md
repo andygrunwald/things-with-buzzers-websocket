@@ -25,8 +25,8 @@ Have a look at
   - [Websocket server](#websocket-server)
   - [Static webserver](#static-webserver)
   - [Software buzzer emulation](#software-buzzer-emulation)
-- [Test the setup (without buzzer)](#test-the-setup-without-buzzer)
 - [Usage and configuration](#usage-and-configuration)
+- [Test the setup (without buzzer)](#test-the-setup-without-buzzer)
 - [Development](#development)
   - [Native build](#native-build)
   - [Native build for Raspberry Pi](#native-build-for-raspberry-pi)
@@ -85,18 +85,6 @@ Once connected, the server supports the following commands:
 
 Happy emulating!
 
-## Test the setup (without buzzer)
-
-Let us connect the dots and test the full setup without hardware buzzers and with our software emulation:
-
-1. Download the `twb-websocket` binary and start it: `./twb-websocket`
-2. Open a browser and go to http://localhost:8080/static/dummy.html
-3. Open a terminal and connect to the TCP socket: `telnet localhost 8181`
-4. Type `/yellow` into the terminal
-5. You should see a message `{"Color":"yellow"}` in your browser window.
-
-Your test was successful. You are good to go!
-
 ## Usage and configuration
 
 The help output can be requested with:
@@ -124,6 +112,18 @@ The application starts with sane defaults:
 
 * Websocket and Webserver available via port `*:8080` on all interfaces (via HTTP)
 * Software buzzer emulation enabled and available via port `*:8181` on all interfaces (via TCP/telnet)
+
+## Test the setup (without buzzer)
+
+Let us connect the dots and test the full setup without hardware buzzers and with our software emulation:
+
+1. Download the `twb-websocket` binary and start it: `./twb-websocket`
+2. Open a browser and go to http://localhost:8080/static/dummy.html
+3. Open a terminal and connect to the TCP socket: `telnet localhost 8181`
+4. Type `/yellow` into the terminal
+5. You should see a message `{"Color":"yellow"}` in your browser window.
+
+Your test was successful. You are good to go!
 
 ## Development
 
