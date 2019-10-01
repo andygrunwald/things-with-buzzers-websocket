@@ -25,6 +25,7 @@ Have a look at
   - [Websocket server](#websocket-server)
   - [Static webserver](#static-webserver)
   - [Software buzzer emulation](#software-buzzer-emulation)
+- [Installation](#installation)
 - [Usage and configuration](#usage-and-configuration)
 - [Test the setup (without buzzer)](#test-the-setup-without-buzzer)
 - [Development](#development)
@@ -32,7 +33,6 @@ Have a look at
   - [Native build for Raspberry Pi](#native-build-for-raspberry-pi)
   - [Running the tests](#running-the-tests)
   - [Creating a new release](#creating-a-new-release)
-  - [Deploy it to the Raspberry Pi](#deploy-it-to-the-raspberry-pi)
   - [Raspberry GPIOs](#raspberry-gpios)
 - [Contribute](#contribute)
 
@@ -85,9 +85,21 @@ Once connected, the server supports the following commands:
 
 Happy emulating!
 
+## Installation
+
+Get the [latest release](https://github.com/andygrunwald/things-with-buzzers-websocket/releases):
+
+Here is the example for _macOS / i386_:
+
+```sh
+$ curl -L https://github.com/andygrunwald/things-with-buzzers-websocket/releases/download/v1.0.0/twb-websocket_macOS_i386.tar.gz
+$ tar -xvzf twb-websocket_macOS_i386.tar.gz
+$ ./twb-websocket -help
+```
+
 ## Usage and configuration
 
-Get the [latest release](https://github.com/andygrunwald/things-with-buzzers-websocket/releases) and start it:
+Start the binary:
 
 ```sh
 $ ./twb-websocket
@@ -170,15 +182,6 @@ $ git push origin v0.1.0
 
 # Ship the release
 $ goreleaser
-```
-
-### Deploy it to the Raspberry Pi
-
-We assume that your Pi has the IP address _192.168.178.41_.
-It will deploy the _twb-websocket_ binary into the _/home/pi_ folder on your Pi.
-
-```sh
-$ scp twb-websocket pi@192.168.178.41:
 ```
 
 ### Raspberry GPIOs
