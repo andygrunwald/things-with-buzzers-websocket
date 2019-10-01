@@ -3,6 +3,9 @@ package main
 import (
 	"log"
 	"net/http"
+	"os"
+
+	"github.com/gorilla/handlers"
 )
 
 // WebServer represents the data structure that
@@ -28,14 +31,34 @@ func NewWebserver(listen string, websocket *WebSocketServer) *WebServer {
 func (s *WebServer) Start() error {
 	log.Printf("Webserver starting on %s", s.listen)
 
+	r := http.NewServeMux()
+
 	// Static file server
 	fs := http.FileServer(http.Dir("static"))
-	http.Handle("/static/", http.StripPrefix("/static/", fs))
+	r.Handle("/static/", http.StripPrefix("/static/", fs))
 
 	// WebSocket route
-	http.HandleFunc("/stream", s.websocketHandler)
+	r.HandleFunc("/stream", s.websocketHandler)
 
-	if err := http.ListenAndServe(s.listen, nil); err != nil {
+	// We enable HTTP request logging here.
+	// HTTP logs are right now in line with the Apache HTTPd standard format
+	// This is not very beautiful, because it leads to two different log styles:
+	//
+	// 		2019/10/01 19:19:44 Starting socket broadcast
+	//		2019/10/01 19:19:44 Webserver starting on :8080
+	//		2019/10/01 19:19:44 Buzzer emulator: tcp socket starting on :8181
+	//		::1 - - [01/Oct/2019:19:19:50 +0200] "GET /static/twb-jeopardy/example-season-2/game-1.json HTTP/1.1" 200 7282
+	//		::1 - - [01/Oct/2019:19:19:50 +0200] "GET /favicon.ico HTTP/1.1" 404 19
+	//		127.0.0.1 - - [01/Oct/2019:19:20:21 +0200] "GET /static/twb-jeopardy/seasons.json HTTP/1.1" 200 365
+	//
+	// As you can see, logging about the process behaviour is mixed with HTTP logging.
+	// One idea would be to to adjust the HTTP logging to the normal logging structure.
+	// Another idea would be to switch to logrus (see #2 https://github.com/andygrunwald/things-with-buzzers-websocket/issues/2)
+	// Whatever. For now this is working and okayish.
+	//
+	// If you, open source contributer, read this, and you want to take action, feel free to send a PR
+	// to https://github.com/andygrunwald/things-with-buzzers-websocket
+	if err := http.ListenAndServe(s.listen, handlers.LoggingHandler(os.Stdout, r)); err != nil {
 		return err
 	}
 	return nil
