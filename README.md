@@ -69,7 +69,7 @@ For this reason and purpose, we have implemented a software buzzer emulation.
 The software buzzer emulation is available on the configured TCP interface + port (default `*:8181`) and via TCP clients (e.g., telnet):
 
 ```sh
-telnet localhost 8181
+$ telnet localhost 8181
 ```
 
 Once connected, the server supports the following commands:
@@ -101,7 +101,14 @@ Your test was successful. You are good to go!
 The help output can be requested with:
 
 ```sh
-./twb-websocket -help
+$ ./twb-websocket -help
+Usage of ./twb-websocket:
+  -hardware-buzzer
+    	Enforces initialization of hardware buzzer (even on non arm architectures)
+  -http-listen-addr string
+    	HTTP server listen address (default ":8080")
+  -tcp-listen-addr string
+    	TCP/Software buzzer server listen address (default ":8181")
 ```
 
 All settings are configurable via commandline flags or environment variables.
@@ -122,13 +129,32 @@ The application starts with sane defaults:
 ### Native build
 
 ```sh
-go build -o twb-websocket
+$ go build -o twb-websocket
 ```
 
 ### Native build for Raspberry Pi
 
 ```sh
-GOARM=7 GOARCH=arm GOOS=linux go build -o twb-websocket
+$ GOARM=7 GOARCH=arm GOOS=linux go build -o twb-websocket
+```
+
+### Running the tests
+
+```sh
+$ go test -v
+```
+
+### Creating a new release
+
+For our release process, we use [goreleaser.com](https://goreleaser.com/) and [semantic version](http://semver.org/):
+
+```sh
+# Create a new git tag
+$ git tag -a v0.1.0 -m "First release"
+$ git push origin v0.1.0
+
+# Ship the release
+$ goreleaser
 ```
 
 ### Deploy it to the Raspberry Pi
@@ -137,13 +163,7 @@ We assume that your Pi has the IP address _192.168.178.41_.
 It will deploy the _twb-websocket_ binary into the _/home/pi_ folder on your Pi.
 
 ```sh
-scp twb-websocket pi@192.168.178.41:
-```
-
-### Running the tests
-
-```sh
-go test -v
+$ scp twb-websocket pi@192.168.178.41:
 ```
 
 ### Raspberry GPIOs
