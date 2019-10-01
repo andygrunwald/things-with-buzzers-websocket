@@ -87,6 +87,20 @@ Happy emulating!
 
 ## Usage and configuration
 
+Get the [latest release](https://github.com/andygrunwald/things-with-buzzers-websocket/releases) and start it:
+
+```sh
+$ ./twb-websocket
+2019/10/01 21:52:49 ******************************************
+2019/10/01 21:52:49       things with buzzers: websocket
+2019/10/01 21:52:49 ******************************************
+2019/10/01 21:52:49 Software buzzer requested
+2019/10/01 21:52:49 Starting socket broadcast
+2019/10/01 21:52:49 Webserver starting on :8080
+2019/10/01 21:52:49 Buzzer emulator: tcp socket starting on :8181
+[...]
+```
+
 The help output can be requested with:
 
 ```sh
