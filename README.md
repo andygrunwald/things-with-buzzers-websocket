@@ -92,7 +92,7 @@ Get the [latest release](https://github.com/andygrunwald/things-with-buzzers-web
 Here is the example for _macOS / i386_:
 
 ```sh
-$ curl -L https://github.com/andygrunwald/things-with-buzzers-websocket/releases/download/v1.0.0/twb-websocket_macOS_i386.tar.gz
+$ curl -O -J -L https://github.com/andygrunwald/things-with-buzzers-websocket/releases/latest/download/twb-websocket_macOS_i386.tar.gz
 $ tar -xvzf twb-websocket_macOS_i386.tar.gz
 $ ./twb-websocket -help
 ```
