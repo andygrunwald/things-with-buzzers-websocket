@@ -5,12 +5,7 @@ builds:
   goos:
     - linux
     - darwin
-    # TODO: Enable windows support
-    # Right now compilation on windows doesn't work
-    # One idea would be to split the buzzer.go files
-    # and enable only software support
-    # See https://dave.cheney.net/2013/10/12/how-to-use-conditional-compilation-with-the-go-build-tool
-    # - windows
+    - windows
   goarch:
     - 386
     - amd64

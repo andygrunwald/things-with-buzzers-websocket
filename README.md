@@ -144,6 +144,8 @@ The application starts with sane defaults:
 * Websocket and Webserver available via port `*:8080` on all interfaces (via HTTP)
 * Software buzzer emulation enabled and available via port `*:8181` on all interfaces (via TCP/telnet)
 
+PS: Hardware buzzers are not supported on windows.
+
 ## Test the setup (without buzzer)
 
 Let us connect the dots and test the full setup without hardware buzzers and with our software emulation:
