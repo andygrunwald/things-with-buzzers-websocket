@@ -6,6 +6,11 @@ import (
 	"fmt"
 )
 
+// HardwareBuzzer is a implementation of the Buzzer
+// interface for physical hardware buzzers.
+// See https://github.com/andygrunwald/things-with-buzzers-hardware
+// for more details
+//
 // This is only a dummy implementation for windows.
 // On windows, gobot seems not to compile.
 //
@@ -19,6 +24,9 @@ import (
 //
 // Therefor, we mock the hardware interface and only
 // enable other features of twb-websocket on other platforms.
+type HardwareBuzzer struct {
+	buzzerStream chan buzzerHit
+}
 
 // NewHardwareBuzzer returns a new instance of
 // the hardware buzzer stream
