@@ -19,6 +19,17 @@ var (
 	// HardwareBuzzerSupport represents the flag to enforce
 	// initialization of hardware buzzer (even on non arm architectures)
 	HardwareBuzzerSupport = false
+
+	VersionFlag = false
+
+	// version is the software version of twb-websocket
+	version = "dev"
+
+	// commit is the current git sha of twb-websocket
+	commit = "none"
+
+	// date is the compile date of twb-websocket
+	date = "unknown"
 )
 
 func main() {
@@ -26,11 +37,22 @@ func main() {
 	flag.StringVar(&HTTPListenAddr, "http-listen-addr", LookupEnvOrString("TWB_HTTP_LISTEN_ADDR", HTTPListenAddr), "HTTP server listen address")
 	flag.StringVar(&TCPListenAddr, "tcp-listen-addr", LookupEnvOrString("TWB_TCP_LISTEN_ADDR", TCPListenAddr), "TCP/Software buzzer server listen address")
 	flag.BoolVar(&HardwareBuzzerSupport, "hardware-buzzer", LookupEnvOrBool("TWB_HARDWARE_BUZZER", HardwareBuzzerSupport), "Enforces initialization of hardware buzzer (even on non arm architectures)")
+	flag.BoolVar(&VersionFlag, "version", VersionFlag, "Shows the current version")
 	flag.Parse()
 
 	log.Println("******************************************")
 	log.Println("      things with buzzers: websocket      ")
 	log.Println("******************************************")
+
+	log.Printf("Version: %s", version)
+	log.Printf("Commit: %s", commit)
+	log.Printf("Date: %s", date)
+
+	// If the version flag was hit, exit here.
+	// In a normal run, we want to output the version + co information.
+	if VersionFlag {
+		return
+	}
 
 	// Initializing everything:
 	// The websocket server, the webserver, and the buzzer implementation

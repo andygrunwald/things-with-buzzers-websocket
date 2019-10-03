@@ -103,13 +103,16 @@ Start the binary:
 
 ```sh
 $ ./twb-websocket
-2019/10/01 21:52:49 ******************************************
-2019/10/01 21:52:49       things with buzzers: websocket
-2019/10/01 21:52:49 ******************************************
-2019/10/01 21:52:49 Software buzzer requested
-2019/10/01 21:52:49 Starting socket broadcast
-2019/10/01 21:52:49 Webserver starting on :8080
-2019/10/01 21:52:49 Buzzer emulator: tcp socket starting on :8181
+2019/10/03 08:33:09 ******************************************
+2019/10/03 08:33:09       things with buzzers: websocket
+2019/10/03 08:33:09 ******************************************
+2019/10/03 08:33:09 Version: v1.0.1-next
+2019/10/03 08:33:09 Commit: fdf3574e05a4be75e124ddd09bc03d2c2e45c363
+2019/10/03 08:33:09 Date: 2019-10-03T06:33:01Z
+2019/10/03 08:33:09 Software buzzer requested
+2019/10/03 08:33:09 Starting socket broadcast
+2019/10/03 08:33:09 Webserver starting on :8080
+2019/10/03 08:33:09 Buzzer emulator: tcp socket starting on :8181
 [...]
 ```
 
@@ -124,6 +127,8 @@ Usage of ./twb-websocket:
     	HTTP server listen address (default ":8080")
   -tcp-listen-addr string
     	TCP/Software buzzer server listen address (default ":8181")
+  -version
+    	Shows the current version
 ```
 
 All settings are configurable via commandline flags or environment variables.
