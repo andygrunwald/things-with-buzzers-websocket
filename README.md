@@ -146,6 +146,32 @@ The application starts with sane defaults:
 
 PS: Hardware buzzers are not supported on windows.
 
+### Usage with docker
+
+Start the container:
+
+```sh
+$ docker run -it -p 8080:8080 -p 8181:8181 -d andygrunwald/twb-websocket
+```
+
+Configure the app via environment variables:
+
+```sh
+$ docker run -it --env TWB_HTTP_LISTEN_ADDR=":9999" -p 8080:9999 -p 8181:8181 -d andygrunwald/twb-websocket
+```
+
+or via command line arguments:
+
+```c
+$ docker run -it -p 8080:9999 -p 8181:8181 -d andygrunwald/twb-websocket -http-listen-addr=":9999"
+```
+
+If you want to mount additional data into the `static/` folder, you can mount it to the docker host system:
+
+```sh
+$ docker run -it -p 8080:8080 -p 8181:8181 -v /Your/Path/To/things-with-buzzers-websocket/static:/go/src/app/static -d andygrunwald/twb-websocket
+```
+
 ## Test the setup (without buzzer)
 
 Let us connect the dots and test the full setup without hardware buzzers and with our software emulation:
@@ -170,6 +196,12 @@ $ go build -o twb-websocket
 
 ```sh
 $ GOARM=7 GOARCH=arm GOOS=linux go build -o twb-websocket
+```
+
+### Docker build
+
+```sh
+$ docker build -t andygrunwald/twb-websocket .
 ```
 
 ### Running the tests

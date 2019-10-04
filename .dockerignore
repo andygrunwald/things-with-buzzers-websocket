@@ -1,0 +1,7 @@
+# goreleaser
+dist/
+.goreleaser.yml
+
+# Repository internal
+.github/
+images/
