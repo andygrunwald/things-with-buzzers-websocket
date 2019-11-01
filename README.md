@@ -9,6 +9,8 @@ _The basic idea?_
 Write your frontend and react on buzzer pushes.
 Start today having fun, and make people happy by providing them an unforgettable time.
 
+> For even more context, we recommend reading [things with buzzers: building them](https://andygrunwald.com/blog/things-with-buzzers-building-them/).
+
 <p align="center">
   <img src="images/buzzer-setup-websocket.png" title="The finished product: Four buzzers, a Raspberry Pi incl. hat" alt="The finished product: Four buzzers, a Raspberry Pi incl. hat">
 </p>
