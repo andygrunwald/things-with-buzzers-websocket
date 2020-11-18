@@ -58,7 +58,8 @@ func main() {
 	// The websocket server, the webserver, and the buzzer implementation
 	buzzerStream := make(chan buzzerHit, 4)
 	websocketServer := NewWebSocketServer(buzzerStream)
-	httpServer := NewWebserver(HTTPListenAddr, websocketServer)
+	httpBuzzer := NewHttpBuzzer(buzzerStream)
+	httpServer := NewWebserver(HTTPListenAddr, websocketServer, httpBuzzer)
 
 	var buzzer Buzzer
 	if runtime.GOARCH == "arm" || HardwareBuzzerSupport {
