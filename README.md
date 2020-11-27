@@ -70,6 +70,10 @@ Either, because you still plan to build them or they are simply at another locat
 But this should not limit us, to build new frontends or experiment with the stack.
 For this reason and purpose, we have implemented a software buzzer emulation.
 
+Happy emulating!
+
+**Telnet**
+
 The software buzzer emulation is available on the configured TCP interface + port (default `*:8181`) and via TCP clients (e.g., telnet):
 
 ```sh
@@ -86,7 +90,19 @@ Once connected, the server supports the following commands:
 | `/yellow` | Sends a websocket message "Color: yellow" / Emulates the yellow buzzer |
 | `/quit`   | Quits the connection                                                   |
 
-Happy emulating!
+**HTTP**
+
+It is also possible to use the emulation via a HTTP request:
+
+```sh
+curl --header "Content-Type: application/json" --request POST --data '{"color":"red"}' http://localhost:8080/buzz
+```
+
+Available colors:
+- `red`
+- `green`
+- `blue`
+- `yellow`
 
 ## Installation
 
