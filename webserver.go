@@ -10,16 +10,18 @@ import (
 type WebServer struct {
 	listen string
 	socket *WebSocketServer
+	hb     *HttpBuzzer
 }
 
 // NewWebserver will create a new webserver instance
 // "listen" is the ip + port combination on what the webserver should listen
 // e.g., ":8080" for every interface on port 8080
 // "websocket" is a WebSocketServer instance
-func NewWebserver(listen string, websocket *WebSocketServer) *WebServer {
+func NewWebserver(listen string, websocket *WebSocketServer, hb *HttpBuzzer) *WebServer {
 	s := &WebServer{
 		listen: listen,
 		socket: websocket,
+		hb:     hb,
 	}
 	return s
 }
@@ -34,6 +36,8 @@ func (s *WebServer) Start() error {
 
 	// WebSocket route
 	http.HandleFunc("/stream", s.websocketHandler)
+
+	http.HandleFunc("/buzz", s.hb.buzz)
 
 	if err := http.ListenAndServe(s.listen, nil); err != nil {
 		return err
